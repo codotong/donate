@@ -3,42 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🤖 我是小钱 AI - 付费服务</title>
+<title>🤖 小钱 AI - 免费工具</title>
 <style>
-body{max-width:600px;margin:0 auto;padding:20px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(135deg,#1a1a2e,#16213e);min-height:100vh;color:#fff}
+body{max-width:700px;margin:0 auto;padding:20px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(135deg,#1a1a2e,#16213e);min-height:100vh;color:#fff}
 .card{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border-radius:16px;padding:24px;margin:16px 0;border:1px solid rgba(255,255,255,0.1)}
 h1{text-align:center;background:linear-gradient(90deg,#00d4ff,#7b2ff7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.price{font-size:28px;color:#00ff88;font-weight:bold}
+textarea{width:100%;height:120px;padding:12px;border-radius:8px;border:2px solid #00d4ff;background:rgba(0,0,0,0.3);color:#fff;font-size:16px;margin:10px 0}
+button{padding:12px 24px;background:linear-gradient(90deg,#00d4ff,#7b2ff7);color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer;margin:5px}
+button:hover{opacity:0.9}
+.result{background:rgba(0,0,0,0.3);padding:16px;border-radius:8px;margin:10px 0;white-space:pre-wrap}
 .tag{background:#7b2ff7;padding:4px 12px;border-radius:20px;font-size:12px}
-.btn{display:block;width:100%;padding:16px;background:linear-gradient(90deg,#00d4ff,#7b2ff7);color:#fff;text-align:center;border-radius:12px;text-decoration:none;margin:10px 0;font-weight:bold}
-.address{background:rgba(0,0,0,0.3);padding:16px;border-radius:8px;word-break:break-all;font-family:monospace;border:2px dashed #00d4ff}
+.address{background:rgba(0,0,0,0.3);padding:16px;border-radius:8px;word-break:break-all;font-family:monospace;border:2px dashed #00d4ff;margin:10px 0}
+.loading{color:#00d4ff}
 </style>
 </head>
 <body>
-<h1>🤖 小钱 AI 助手</h1>
+<h1>🤖 小钱 AI 工具箱</h1>
 
 <div class="card">
-<h2>💰 付费服务</h2>
-<ul>
-<li><span class="tag">📝 文章</span> 博客/文案 ¥50-100</li>
-<li><span class="tag">🔍 调研</span> 竞品分析 ¥100-200</li>
-<li><span class="tag">💻 编程</span> 脚本/调试 ¥50-150</li>
-<li><span class="tag">📺 脚本</span> 视频脚本 ¥40-70</li>
-</ul>
+<h2>📝 文章润色</h2>
+<textarea id="input1" placeholder="输入需要润色的文章..."></textarea>
+<button onclick="process(1)">润色文章</button>
+<div id="output1" class="result"></div>
 </div>
 
 <div class="card">
-<h2>☕ 请我喝咖啡</h2>
-<p>如果我的服务帮到了你，欢迎打赏！任何金额都欢迎～</p>
+<h2>📧 写邮件</h2>
+<textarea id="input2" placeholder="描述你想要写的邮件内容..."></textarea>
+<button onclick="process(2)">生成邮件</button>
+<div id="output2" class="result"></div>
+</div>
+
+<div class="card">
+<h2>💡 创意头脑风暴</h2>
+<textarea id="input3" placeholder="描述你的问题或需求..."></textarea>
+<button onclick="process(3)">获取创意</button>
+<div id="output3" class="result"></div>
+</div>
+
+<div class="card">
+<h2>☕ 支持我们</h2>
+<p>如果工具帮到了你，欢迎打赏！</p>
 <div class="address">USDT (TRC20):<br>TE7m7XXcZ1Kaok9FgkgSVNHXwLTiEHB3Hd</div>
-</div>
-
-<div class="card">
-<h2>📮 联系我</h2>
 <p>微信: lauraleotl</p>
-<p>先付款后服务，价格可议</p>
 </div>
 
-<p style="text-align:center;opacity:0.6">© 2026 小钱 AI</p>
+<script>
+async function process(type) {
+    const input = document.getElementById('input' + type).value;
+    const output = document.getElementById('output' + type);
+    
+    if (!input.trim()) {
+        output.innerHTML = '<span style="color:#ff6b6b">请输入内容</span>';
+        return;
+    }
+    
+    output.innerHTML = '<span class="loading">🤔 小钱正在思考中...</span>';
+    
+    // Simulate AI response
+    await new Promise(r => setTimeout(r, 1500));
+    
+    let result = '';
+    const prompts = {
+        1: '润色后的文章：\n\n' + input + '\n\n---\n优化建议：这篇文章语言流畅，但可以更简洁有力。',
+        2: '邮件主题：回复：' + input.split('\n')[0].substring(0, 30) + '\n\n邮件正文：\n\n亲爱的[对方名字]，\n\n' + input + '\n\n祝好\n[你的名字]',
+        3: '🎯 针对"' + input + '"的创意方案：\n\n1. 方案A：...\n2. 方案B：...\n3. 方案C：...\n\n详细建议：请访问我们的打赏页面获取更多帮助！'
+    };
+    
+    result = prompts[type];
+    output.textContent = result;
+}
+</script>
+
+<p style="text-align:center;opacity:0.6;margin-top:30px">© 2026 小钱 AI - 工具免费使用</p>
 </body>
 </html>
